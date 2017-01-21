@@ -1,44 +1,16 @@
-# Site settings
-title: Swift
-description: A clean minimal Theme for Jekyll
-email: pranav@maangalabs.com
-baseurl: /swift
-url: "http://pranav.maangalabs.com" # the base hostname & protocol for your site
-#favicon
-favicon: /favicon.png
+name: Your New Jekyll Site
+description: Blogging about stuffs
+meta_description: "Your New Jekyll Site, Blogging about stuffs"
 
-#feed
-feedburner_username: maangalabs
-#twitter
-twitter_username: pranavrajs
-github_username:  pranavrajs
-
-#linkedin
-linkedin_username: pranavrajs
-
-#google analytics
-google_analytics_id : UA-53386152-2
-#gplus
-gplus_username: 101893920934936418705
-
-#fb_username
-fb_username: pranav.tayberrycreative
-
-#permalink /blog/2014/11/11/this-is-a-sample-post
-permalink: /blog/:year/:month/:day/:title
-# Build settings
 markdown: kramdown
+highlighter: pygments
+logo: false
+paginate: 15
+baseurl: /
+domain_name: 'http://yourblog-domain.com'
+google_analytics: 'UA-XXXXXXXX-X'
+gems: [jekyll-paginate]
 
-#Disqus configuration
-disqus_short_name: maangalabscom
-disqus_show_comment_count: true
-
-#Can be used for multiple author blogs ! Add name to post For more visit the sample
-authors:
-  pranavrajs:
-    display_name: Pranav Raj S
-    email: pranavrajs@gmail.com
-    fb: pranav.tayberrycreative
-    linkedin: pranavrajs
-    twitter: pranavrajs
-    github: pranavrajs
+# Details for the RSS feed generator
+url:            'blog url'
+author:         'Your Name'
