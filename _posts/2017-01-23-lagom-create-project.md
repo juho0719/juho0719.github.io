@@ -4,13 +4,9 @@ date:   2017-01-23 18:18:00
 categories: Lagom
 ---
 
-### Creating new Lagom project
-
-라곰 프로젝트를 만드는 가장 쉬운 방법은 Activator를 이용하는 것이다.
-
+라곰 프로젝트를 만드는 가장 쉬운 방법은 Activator를 이용하는 것이다.  
 `activator new 프로젝트명 lagom-java`
-
-Activator를 이용하면 helloworld와 hellostream 두개의 서비스가 포함되어 생성된다.
+Activator를 이용하면 helloworld와 hellostream 두개의 서비스가 포함되어 생성된다.  
 
 ***
 
@@ -50,6 +46,7 @@ descriptor()는 서비스명과 REST endpoint를 정의한다.
 선언된 enpoint에 구현체에서 사용할 추상 메소드를 선언한다. (예: `ServiceCall<NotUsed, String> hello(String id);`와 같은..)
 
 구현체는 helloworld-impl프로젝트에 구현되어 있다. (HelloServiceImple.java)
+
 ```java
 public class HelloServiceImpl implements HelloService {
 
@@ -72,6 +69,7 @@ public class HelloServiceImpl implements HelloService {
   }
 }
 ```
+
 PersistentEntity 레지스트리를 사용하면 Event Sourcing and CQRS를 사용하여 데이터베이스에 데이터를 넣을 수 있다.
 
 ***
