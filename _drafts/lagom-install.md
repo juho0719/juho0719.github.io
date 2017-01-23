@@ -1,8 +1,3 @@
----
-title:  "Lagom Installation"
-date:   2017-01-23 14:47:00
-categories: Lagom
----
 Lagom(이하 라곰)은 Maven(이하 메이븐)과 sbt 두가지 빌드 툴을 지원한다.
 메이븐이 더 널리 쓰이고 있어 익숙하겠지만, 개인적인 호기심으로 sbt를 써보기로 한다.
 
