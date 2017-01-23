@@ -3,7 +3,7 @@ description: Programming Blog
 meta_description: "Programming, Juho Kim"
 
 markdown: kramdown
-highlighter: rogue
+highlighter: rouge
 logo: false
 paginate: 15
 baseurl: /
