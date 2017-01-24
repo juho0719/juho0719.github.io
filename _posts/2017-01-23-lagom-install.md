@@ -1,4 +1,5 @@
 ---
+layout: post
 title:  "Lagom - Installation"
 date:   2017-01-23 14:47:00
 categories: Lagom
