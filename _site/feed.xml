@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-24T23:55:37+09:00</updated><id>http://localhost:4000//</id><title type="html">Juho Factory</title><subtitle>Welcome to my awesome blog.
+</subtitle><entry><title type="html">Lagom - Lagom build in sbt</title><link href="http://localhost:4000/2017/lagom-build-in-sbt" rel="alternate" type="text/html" title="Lagom - Lagom build in sbt" /><published>2017-01-24T06:04:00+09:00</published><updated>2017-01-24T06:04:00+09:00</updated><id>http://localhost:4000/2017/lagom-build-in-sbt</id><content type="html" xml:base="http://localhost:4000/2017/lagom-build-in-sbt">&lt;p&gt;라곰 프로젝트를 sbt로 빌드하는 경우 &lt;code class=&quot;highlighter-rouge&quot;&gt;project/plugin.sbt&lt;/code&gt; 파일에 Lagom Plugin을 명시해야한다&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;addSbtPlugin(&quot;com.lightbend.lagom&quot; % &quot;lagom-sbt-plugin&quot; % &quot;1.0.0-M1&quot;)&lt;/code&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;section&quot;&gt;빌드 파일 작성&lt;/h3&gt;
+
+&lt;p&gt;일반적으로 &lt;code class=&quot;highlighter-rouge&quot;&gt;build.sbt&lt;/code&gt; 하나의 파일로 필요에 따라 여러개로 작성될 수도 있다.&lt;br /&gt;
+sbt 빌드 파일은 스칼라 DSL로 작성된다. Activator로 프로젝트를 생성하였다면 라곰을 실행시키기 위한 파일들이 대부분 작성되어 있다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;스칼라 버전 세팅&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;스칼라 버전은 다음과 같이 명시한다.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;scalaVersion in ThisBuild := &quot;2.11.8&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;프로젝트 정의&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;한 서비스에는 적어도 두개의 프로젝트가 있다(API, impl)&lt;br /&gt;
+라곰 프로젝트는 일반적인 sbt 프로젝트이다. 다음과 같이 정의한다&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lazy val helloworldApi = (project in file(&quot;helloworld-api&quot;))
+  .settings(
+    version := &quot;1.0-SNAPSHOT&quot;,
+    libraryDependencies += lagomJavadslApi
+  )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;lazy val을 사용하면 초기화 순서 문제를 방지할 수 있다.&lt;br /&gt;
+라곰 플러그인은 라곰 라이브러리를 쉽게 추가할 수 있도록 &lt;code class=&quot;highlighter-rouge&quot;&gt;lagomJavadslApi&lt;/code&gt;를 제공한다.&lt;br /&gt;
+만약 보통 sbt에서 사용하는 &lt;code class=&quot;highlighter-rouge&quot;&gt;groupId&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;artifactId&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;version&lt;/code&gt; 와 같은 것을 지정하고 싶다면&lt;br /&gt;
+&lt;a href=&quot;http://www.scala-sbt.org/0.13/docs/Library-Dependencies.html&quot;&gt;Library dependencies in the sbt documentation&lt;/a&gt; 을 참고한다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lazy val helloworldImpl = (project in file(&quot;helloworld-impl&quot;))
+  .enablePlugins(LagomJava)
+  .settings(
+    version := &quot;1.0-SNAPSHOT&quot;
+  )
+  .dependsOn(helloworldApi)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;api프로젝트에는 플러그인을 사용할 필요가 없지만 impl 프로젝트에선 사용할 수 있다.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;LagomJava&lt;/code&gt; 플러그인을 추가하면, 라곰 프로젝트를 실행하는 데 필요한 설정과 종속성이 추가된다.&lt;br /&gt;
+impl 프로젝트는 api프로젝트에 대한 의존성을 선언하여 api인터페이스를 구현한다.(&lt;code class=&quot;highlighter-rouge&quot;&gt;.dependsOn(hellowrldApi)&lt;/code&gt;)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lazy val hellostreamApi = (project in file(&quot;hellostream-api&quot;))
+  .settings(
+    version := &quot;1.0-SNAPSHOT&quot;,
+    libraryDependencies += lagomJavadslApi
+  )
+
+lazy val hellostreamImpl = (project in file(&quot;hellostream-impl&quot;))
+  .enablePlugins(LagomJava)
+  .settings(
+    version := &quot;1.0-SNAPSHOT&quot;
+  )
+  .dependsOn(hellostreamApi, helloworldApi)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;첫번째와 비슷하지만 다른 점은 &lt;code class=&quot;highlighter-rouge&quot;&gt;helloworldApi&lt;/code&gt;도 의존성을 추가해야 서비스를 호출할 수 있다.&lt;/p&gt;</content><summary type="html">라곰 프로젝트를 sbt로 빌드하는 경우 project/plugin.sbt 파일에 Lagom Plugin을 명시해야한다
+addSbtPlugin(&quot;com.lightbend.lagom&quot; % &quot;lagom-sbt-plugin&quot; % &quot;1.0.0-M1&quot;)</summary></entry><entry><title type="html">Lagom - Create Project</title><link href="http://localhost:4000/2017/lagom-create-project" rel="alternate" type="text/html" title="Lagom - Create Project" /><published>2017-01-24T03:18:00+09:00</published><updated>2017-01-24T03:18:00+09:00</updated><id>http://localhost:4000/2017/lagom-create-project</id><content type="html" xml:base="http://localhost:4000/2017/lagom-create-project">&lt;p&gt;라곰 프로젝트를 만드는 가장 쉬운 방법은 Activator를 이용하는 것이다.&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;activator new 프로젝트명 lagom-java&lt;/code&gt;&lt;br /&gt;
+Activator를 이용하면 helloworld와 hellostream 두개의 서비스가 포함되어 생성된다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;lagom-project-structureactivator&quot;&gt;Lagom Project Structure(Activator)&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;프로젝트명
+ ㄴ hellostream-api
+ ㄴ hellostream-impl
+ ㄴ helloworld-api
+ ㄴ helloworld-impl
+ ㄴ project
+    ㄴ build.properties
+    ㄴ plugins.sbt
+ ㄴ build.sbt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;api 프로젝트는 서비스 인터페이스, impl 프로젝트는 서비스 구현체가 있다.&lt;br /&gt;
+아래는helloworld-api 프로젝트의 HelloService.java이다.&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HelloService&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Service&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;ServiceCall&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NotUsed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Descriptor&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;descriptor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;named&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;helloservice&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;withCalls&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;restCall&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Method&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;GET&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;  &lt;span class=&quot;s&quot;&gt;&quot;/api/hello/:id&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;withAutoAcl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Service 인터페이스를 상속 받고, descriptor()를 구현한다.&lt;br /&gt;
+descriptor()는 서비스명과 REST endpoint를 정의한다.&lt;br /&gt;
+선언된 enpoint에 구현체에서 사용할 추상 메소드를 선언한다. (예: &lt;code class=&quot;highlighter-rouge&quot;&gt;ServiceCall&amp;lt;NotUsed, String&amp;gt; hello(String id);&lt;/code&gt;와 같은..)&lt;/p&gt;
+
+&lt;p&gt;구현체는 helloworld-impl프로젝트에 구현되어 있다. (HelloServiceImple.java)&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;HelloServiceImpl&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;HelloService&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;PersistentEntityRegistry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistentEntityRegistry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;nd&quot;&gt;@Inject&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;HelloServiceImpl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PersistentEntityRegistry&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistentEntityRegistry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;persistentEntityRegistry&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistentEntityRegistry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;persistentEntityRegistry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;register&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HelloWorld&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ServiceCall&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NotUsed&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// Look up the hello world entity for the given ID.&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;PersistentEntityRef&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HelloCommand&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ref&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;persistentEntityRegistry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;refFor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;HelloWorld&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;// Ask the entity the Hello command.&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ref&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hello&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Optional&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;empty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()));&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;};&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;PersistentEntity 레지스트리를 사용하면 Event Sourcing and CQRS를 사용하여 데이터베이스에 데이터를 넣을 수 있다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;running-lagom-services&quot;&gt;Running Lagom services&lt;/h3&gt;
+
+&lt;p&gt;activator 콘솔에서 runAll을 입력하면 모든 서비스를 시작할 수 있다.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ cd my-first-system
+$ activator
+... (booting up)
+&amp;gt; runAll
+[info] Starting embedded Cassandra server
+..........
+[info] Cassandra server running at 127.0.0.1:4000
+[info] Service locator is running at http://localhost:8000
+[info] Service gateway is running at http://localhost:9000
+[info] Service helloworld-impl listening for HTTP on 0:0:0:0:0:0:0:0:24266
+[info] Service hellostream-impl listening for HTTP on 0:0:0:0:0:0:0:0:26230
+(Services started, use Ctrl+D to stop and go back to the console...)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;curl로 해당 서비스가 동작하는지 테스트할 수 있다.(curl이 없는 경우 브라우저에서 테스트해도 된다.)&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ curl http://localhost:9000/api/hello/World&lt;/code&gt;&lt;/p&gt;
+
+&lt;hr /&gt;</content><summary type="html">라곰 프로젝트를 만드는 가장 쉬운 방법은 Activator를 이용하는 것이다.
+activator new 프로젝트명 lagom-java
+Activator를 이용하면 helloworld와 hellostream 두개의 서비스가 포함되어 생성된다.</summary></entry><entry><title type="html">Lagom - Installation</title><link href="http://localhost:4000/2017/lagom-install" rel="alternate" type="text/html" title="Lagom - Installation" /><published>2017-01-23T23:47:00+09:00</published><updated>2017-01-23T23:47:00+09:00</updated><id>http://localhost:4000/2017/lagom-install</id><content type="html" xml:base="http://localhost:4000/2017/lagom-install">&lt;p&gt;Lagom(이하 라곰)은 Maven(이하 메이븐)과 sbt 두가지 빌드 툴을 지원한다.&lt;br /&gt;
+메이븐이 더 널리 쓰이고 있어 익숙하겠지만, 개인적인 호기심으로 sbt를 써보기로 한다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;jdk-&quot;&gt;JDK 설치&lt;/h3&gt;
+
+&lt;p&gt;JDK설치 법은 대부분 다 알고 있으리라 보고 넘어 가기로 한다.&lt;br /&gt;
+단지, 라곰은 JDK8이상 버전을 사용해야 하기 때문에 8버전으로 설치한다.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;sbt-&quot;&gt;sbt 설치&lt;/h3&gt;
+
+&lt;p&gt;sbt는 Java(이하 자바)와 Scala(이하 스칼라)의 빌드 툴이다.&lt;br /&gt;
+이외에도 라곰에서는 Activator를 제공하고 있는 데 라곰 프로젝트 템플릿을 지원하는 툴이다.&lt;br /&gt;
+Activator를 설치하면 sbt가 내장되어 있기 때문에 Activator를 설치하기로 한다.&lt;/p&gt;
+
+&lt;p&gt;옛날 버전 Activator를 설치하면 OutOfMemoryException이 발생 될 수 있어 1.3.10이상 버전을 설치해야 한다.&lt;br /&gt;
+아래 사이트에서 다운로드 받은 후 설치 디렉토리/bin의 PATH를 잡아주면 된다.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.lightbend.com/activator/download&quot;&gt;Activator 다운로드&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;</content><summary type="html">Lagom(이하 라곰)은 Maven(이하 메이븐)과 sbt 두가지 빌드 툴을 지원한다.
+메이븐이 더 널리 쓰이고 있어 익숙하겠지만, 개인적인 호기심으로 sbt를 써보기로 한다.</summary></entry><entry><title type="html">Sample post</title><link href="http://localhost:4000/2016/sample-post" rel="alternate" type="text/html" title="Sample post" /><published>2016-01-15T11:40:02+09:00</published><updated>2016-01-15T11:40:02+09:00</updated><id>http://localhost:4000/2016/sample-post</id><content type="html" xml:base="http://localhost:4000/2016/sample-post">&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&lt;/p&gt;
+
+&lt;p&gt;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&lt;/p&gt;
+
+&lt;p&gt;At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.&lt;/p&gt;</content><summary type="html">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/2016/welcome-to-jekyll" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2016-01-15T11:40:02+09:00</published><updated>2016-01-15T11:40:02+09:00</updated><id>http://localhost:4000/2016/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/2016/welcome-to-jekyll">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.
+
+To add new posts, simply add a file in the _posts directory that follows the convention YYYY-MM-DD-name-of-post.ext and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+
+Jekyll also offers powerful support for code snippets:
+
+def print_hi(name)
+  puts &quot;Hi, #{name}&quot;
+end
+print_hi('Tom')
+#=&amp;gt; prints 'Hi, Tom' to STDOUT.
+
+Check out the Jekyll docs for more info on how to get the most out of Jekyll. File all bugs/feature requests at Jekyll’s GitHub repo. If you have questions, you can ask them on Jekyll Talk.</summary></entry></feed>
