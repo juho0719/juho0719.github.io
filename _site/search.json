@@ -1,12 +1,21 @@
 [
 
 	{
+		"title"    : "Lagom - Running in development",
+		"category" : "Lagom",
+		"desc"     : "이전 포스트를 보고 프로젝트를 생성하였다면 console로 접속하여 해당 라곰 프로젝트로 들어가 activator를 실행한다.$ cd &lt;path to your Lagom project&gt;$ activator[info] ...\&gt;그리고 모든 서비스를 시작하려면 runAll을 실행한다.\&gt; runAll[info] ...[info] Se...",
+		"tags"     : "",
+		"url"      : "/2017/lagom-running-in-development",
+		"date"     : "2017-01-25 00:05:00 +0900"
+	} ,
+
+	{
 		"title"    : "Lagom - Lagom build in sbt",
 		"category" : "Lagom",
 		"desc"     : "라곰 프로젝트를 sbt로 빌드하는 경우 project/plugin.sbt 파일에 Lagom Plugin을 명시해야한다addSbtPlugin("com.lightbend.lagom" % "lagom-sbt-plugin" % "1.0.0-M1")빌드 파일 작성일반적으로 build.sbt 하나의 파일로 필요에 따라 여러개로 작성될 수도 있다.sbt 빌드 파일...",
 		"tags"     : "",
 		"url"      : "/2017/lagom-build-in-sbt",
-		"date"     : "2017-01-24 06:04:00 +0900"
+		"date"     : "2017-01-23 21:04:00 +0900"
 	} ,
 
 	{
@@ -15,7 +24,7 @@
 		"desc"     : "라곰 프로젝트를 만드는 가장 쉬운 방법은 Activator를 이용하는 것이다.activator new 프로젝트명 lagom-javaActivator를 이용하면 helloworld와 hellostream 두개의 서비스가 포함되어 생성된다.Lagom Project Structure(Activator)프로젝트명 ㄴ hellostream-api ㄴ hello...",
 		"tags"     : "",
 		"url"      : "/2017/lagom-create-project",
-		"date"     : "2017-01-24 03:18:00 +0900"
+		"date"     : "2017-01-23 18:18:00 +0900"
 	} ,
 
 	{
@@ -24,7 +33,7 @@
 		"desc"     : "Lagom(이하 라곰)은 Maven(이하 메이븐)과 sbt 두가지 빌드 툴을 지원한다.메이븐이 더 널리 쓰이고 있어 익숙하겠지만, 개인적인 호기심으로 sbt를 써보기로 한다.JDK 설치JDK설치 법은 대부분 다 알고 있으리라 보고 넘어 가기로 한다.단지, 라곰은 JDK8이상 버전을 사용해야 하기 때문에 8버전으로 설치한다.sbt 설치sbt는 Java(...",
 		"tags"     : "",
 		"url"      : "/2017/lagom-install",
-		"date"     : "2017-01-23 23:47:00 +0900"
+		"date"     : "2017-01-23 14:47:00 +0900"
 	}
 
 ]

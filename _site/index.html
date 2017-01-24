@@ -83,9 +83,20 @@
 
       <li>
         <h2>
+          <a class="post-link" href="/2017/lagom-running-in-development">Lagom - Running in development</a>
+        </h2>
+          <span class="post-meta">Jan 25, 2017</span>
+        <p class="description">
+
+                이전 포스트를 보고 프로젝트를 생성하였다면 console로 접속하여 해당 라곰 프로젝트로 들어가 activator를 실행한다.$ cd &lt;path to your Lagom project&gt;$ activator[info] ...\&gt;그리고 모든 서비스를 시작하려면 runAll을 실행한다.\&gt; runAll[info] ...[info] Service helloworld-impl listening for HTTP on 0:0:0:...
+            </p>
+      </li>
+
+      <li>
+        <h2>
           <a class="post-link" href="/2017/lagom-build-in-sbt">Lagom - Lagom build in sbt</a>
         </h2>
-          <span class="post-meta">Jan 24, 2017</span>
+          <span class="post-meta">Jan 23, 2017</span>
         <p class="description">
 
                 라곰 프로젝트를 sbt로 빌드하는 경우 project/plugin.sbt 파일에 Lagom Plugin을 명시해야한다addSbtPlugin("com.lightbend.lagom" % "lagom-sbt-plugin" % "1.0.0-M1")빌드 파일 작성일반적으로 build.sbt 하나의 파일로 필요에 따라 여러개로 작성될 수도 있다.sbt 빌드 파일은 스칼라 DSL로 작성된다. Activator로 프로젝트를 생성하였다면 라곰을 실행시키기...
@@ -96,7 +107,7 @@
         <h2>
           <a class="post-link" href="/2017/lagom-create-project">Lagom - Create Project</a>
         </h2>
-          <span class="post-meta">Jan 24, 2017</span>
+          <span class="post-meta">Jan 23, 2017</span>
         <p class="description">
 
                 라곰 프로젝트를 만드는 가장 쉬운 방법은 Activator를 이용하는 것이다.activator new 프로젝트명 lagom-javaActivator를 이용하면 helloworld와 hellostream 두개의 서비스가 포함되어 생성된다.Lagom Project Structure(Activator)프로젝트명 ㄴ hellostream-api ㄴ hellostream-impl ㄴ helloworld-api ㄴ helloworld-impl ㄴ p...

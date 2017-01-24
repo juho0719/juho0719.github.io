@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Lagom - Create Project"
-date:   2017-01-23 18:18:00
+date:   2017-01-23 18:18:00 +0900
 categories: Lagom
 ---
 

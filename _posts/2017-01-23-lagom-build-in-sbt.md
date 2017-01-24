@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Lagom - Lagom build in sbt"
-date:   2017-01-23 21:04:00
+date:   2017-01-23 21:04:00 +0900
 categories: Lagom
 ---
 

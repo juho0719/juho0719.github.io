@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Lagom - Running in development"
-date:   2017-01-25 00:05:00
+date:   2017-01-25 00:05:00 +0900
 categories: Lagom
 ---
 
