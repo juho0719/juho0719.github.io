@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://localhost:4000/2017/lagom-build-in-sbt</loc>
+<lastmod>2017-01-24T06:04:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/2017/lagom-create-project</loc>
+<lastmod>2017-01-24T03:18:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/2017/lagom-install</loc>
+<lastmod>2017-01-23T23:47:00+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/2016/sample-post</loc>
+<lastmod>2016-01-15T11:40:02+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/2016/welcome-to-jekyll</loc>
+<lastmod>2016-01-15T11:40:02+09:00</lastmod>
+</url>
+<url>
+<loc>http://localhost:4000/404.html</loc>
+</url>
+<url>
+<loc>http://localhost:4000/about</loc>
+</url>
+<url>
+<loc>http://localhost:4000/archive</loc>
+</url>
+<url>
+<loc>http://localhost:4000/</loc>
+</url>
+</urlset>

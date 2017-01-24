@@ -1,0 +1,10 @@
+{% if site.ads %}<div class="banner-wrapper">
+  {% if page.url != '/404.html' %}{% include ad.html %}{% endif %}
+</div>{% endif %}
+<footer class="site-footer">
+  <div class="wrapper">
+      <div class="copy">
+          {{ site.time | date: '%Y' }} &copy; {{ site.title }}
+      </div>
+  </div>
+</footer>
