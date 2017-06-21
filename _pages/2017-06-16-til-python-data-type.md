@@ -96,11 +96,3 @@ split() : 문자열 나누기
 ```
 
 
-집합은 아래와 같이 표현한다.
-교집합 : & (intersaction)
-합집합 : | (union)
-차집합 : - (difference)
-
-값 1개 추가 : add
-값 2개 추가 : update
-값 제거 : remove
