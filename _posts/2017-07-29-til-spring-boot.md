@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Spring boot"
+date:   2017-07-29 22:00:00 +0900
+categories: Spring, SpringBoot
+---
+
 프로퍼티 적용 방법 (아스키배너 숨기기)
 - 매개변수 : java -jar xxx.jar --spring.main.show-banner=false
 - application.properties

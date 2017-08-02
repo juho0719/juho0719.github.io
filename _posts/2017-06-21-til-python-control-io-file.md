@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Python Control / IO / File"
+date:   2017-06-21 21:00:00 +0900
+categories: Python
+---
+
 if문
 
 ```python

@@ -1,3 +1,9 @@
+---
+layout: post
+title:  "Python Data Type"
+date:   2017-06-16 22:00:00 +0900
+categories: Python
+---
 
 점프 투 파이썬을 보고 있다.
 제일 처음에 나오는 항목은 자료형이다.

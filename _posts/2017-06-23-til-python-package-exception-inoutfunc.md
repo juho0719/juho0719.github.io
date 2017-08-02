@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Python Package / Exception / inoutfunc"
+date:   2017-06-23 22:00:00 +0900
+categories: Python
+---
+
 패키지는 .으로 구분
 
 ```python

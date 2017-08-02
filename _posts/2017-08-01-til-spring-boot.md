@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Spring boot2"
+date:   2017-08-01 22:00:00 +0900
+categories: Spring, SpringBoot
+---
+
 구성 프로퍼티
 @ConfigurationProperties는 @EnableConfigurationProperties가 있어야 작동하지만
 스프링 부트의 자동 구성에 사용하는 모든 구성 클래스는 해당 어노테이션이 붙어있기때문에 작동함.

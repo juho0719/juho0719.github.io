@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Python Data Type2"
+date:   2017-06-21 20:00:00 +0900
+categories: Python
+---
+
 리스트 연산자 가능
 
 ```python

@@ -1,4 +1,9 @@
-
+---
+layout: post
+title:  "Why Python"
+date:   2017-06-16 21:00:00 +0900
+categories: Python
+---
 
 최근 si생활에 지쳐 있는 것을 느꼈다.
 예전부터 생각해왔던 것인데 si랑 안맞는 것 같다.
