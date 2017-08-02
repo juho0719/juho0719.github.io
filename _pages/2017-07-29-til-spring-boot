@@ -28,9 +28,31 @@ application.properties나 yaml파일 위치 (우선순위)
 
 동일한 이름의 properties/yaml이 있으면 yaml으로 적용
 
-탬플릿 캐싱 비활성화
+프로퍼티(탬플릿 캐싱 비활성화)
 - spring.thymeleaf.cache=false
 - spring.freemarker.cache=false
 - spring.groovy.template.cache=false
 - spring.velocity.cache=false
+
+프로퍼티(서버포트)
+- server.port=8000
+
+프로퍼티(ssl)
+- server.port=8443
+- server.ssl.key-store=file://path..../mykeys.jks (jar파일안의 것으로 참조하려면 classpath:형식의 url사용)
+- server.ssl.key-store-password=xxx
+- server.ssl.key-password=xxx
+
+프로퍼티(로그)
+- logging.level.root=WARN
+- logging.level.org.springframework.security=DEBUG
+- logging.path=/var/logs/
+- logging.file=xxx.log
+
+프로퍼티(DB)
+- spring.datasource.url=jdbc:mysql://localhost/readinglist
+- spring.datasource.username=user
+- spring.datasource.password=pass
+- spring.datasource.driver-class-name=com.mysql.jdbc.Driver (보통 생략함. 오류 날 경우 명시)
+- spring.datasource.jndi-name=xxxx (jndi로도 가능)
 
