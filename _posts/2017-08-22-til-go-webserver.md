@@ -20,10 +20,10 @@ func main() {
         w.Write([]byte(`
         <html>
         <head>
-        <title>Chat</title>
+            <title>Chat</title>
         </head>
         <body>
-        gogogo
+            gogogo
         </body>
         </html>
         `))
