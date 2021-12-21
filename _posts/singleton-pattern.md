@@ -1,5 +1,5 @@
 ---
-title: 싱글톤 패턴
+title: singleton-pattern
 date: 2021-12-21 19:08:00
 categories: [design-pattern]
 tags: [design-pattern]
