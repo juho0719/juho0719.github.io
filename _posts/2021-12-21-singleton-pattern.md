@@ -1,7 +1,7 @@
 ---
 title: Singleton Pattern
-date: 2021-12-21 19:08:00
-categories: [design pattern]
+date: 2021-12-21 19:08:00 +09:00
+categories: [Blog, Portfolio]
 tags: [design pattern]
 ---
 
