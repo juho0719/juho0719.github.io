@@ -1,8 +1,8 @@
 ---
-title: singleton-pattern
+title: Singleton Pattern
 date: 2021-12-21 19:08:00
-categories: [design-pattern]
-tags: [design-pattern]
+categories: [design pattern]
+tags: [design pattern]
 ---
 
 # 싱글톤 패턴
