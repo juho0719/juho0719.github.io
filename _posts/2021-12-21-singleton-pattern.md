@@ -1,11 +1,9 @@
 ---
 title: Singleton Pattern
 date: 2021-12-21 19:08:00 +09:00
-categories: [Blog, Portfolio]
+categories: [Blog, Design Pattern]
 tags: [design pattern]
 ---
-
-# 싱글톤 패턴
 
 싱글톤 패턴이란 오직 1개의 인스턴스만 생성하는 패턴이다. 인스턴스를 1개만 생성하는 이유는 불필요한 메모리 누수를 막기 위함이다.
 해당 클래스의 인스턴스가 필요할 때마다 생성한다면 리소스 소모가 많아지게 되고, 잘못 사용하여 메모리 해제가 되지 않게 된다면
