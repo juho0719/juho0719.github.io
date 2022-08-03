@@ -33,20 +33,28 @@ public class Node {
 		this.value = value;
 	}
 
-	public void addLeft(Node node) {
+	public void setValue(int value) {
+		this.value = value;
+	}
+
+	public void setLeftNode(Node node) {
 		this.leftNode = node;
 	}
 
-	public void addRight(Node node) {
+	public void setRightNode(Node node) {
 		this.rightNode = node;
 	}
 
-	public void deleteLeft(Node node) {
-		this.leftNode = null;
+	public void getValue() {
+		return this.value;
 	}
 
-	public void deleteRight(Node node) {
-		this.rightNode = null;
+	public Node getLeftNode() {
+		return this.leftNode;
+	}
+
+	public Node getRightNode() {
+		return this.rightNode;
 	}
 }
 ```
@@ -61,3 +69,47 @@ public class Tree {
 }
 ```
 
+## Traversal
+
+- 트리 순회(Tree Traversal)에는 전위 순회(Preorder), 중위 순회(Inorder), 후위 순회(Postorder), 레벨 순서 순회(Level-order)
+
+### Preorder Traversal
+
+- 노드 방문
+- 왼쪽 서브 트리를 전위 순회
+- 오른쪽 서브 트리를 전위 순회
+- 깊이 우선 순회(depth-first traversal)
+```java
+public void preorder(Node node) {
+	System.out.println(node.getValue());
+	if(node.getLeftNode != null) preorder(node.getLeft());
+	if(node.getRightNode != null) preorder(node.getRight());
+}
+```
+
+### Inorder Traversal
+
+- 왼쪽 서브 트리를 중위 순회
+- 노드 방문
+- 오른쪽 서브 트리를 중위 순회
+- 대칭 순회(symmetric)
+```java
+public void inorder(Node node) {
+	if(node.getLeftNode != null) inorder(node.getLeft());
+	System.out.println(node.getValue());
+	if(node.getRightNode != null) inorder(node.getRight());
+}
+```
+
+### Postorder Traversal
+
+- 왼쪽 서브 트리를 후위 순회
+- 오른쪽 서브 트리를 후위 순회
+- 노드 방문
+```java
+public void postorder(Node node) {
+	if(node.getLeftNode != null) postorder(node.getLeft());
+	if(node.getRightNode != null) postorder(node.getRight());
+	System.out.println(node.getValue());
+}
+```
