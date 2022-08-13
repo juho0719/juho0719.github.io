@@ -134,3 +134,50 @@ public void postorder(Node node) {
 2. 찾고자 하는 키가 루트 노드의 키보다 작다면 왼쪽 서브 트리 탐색 진행
 3. 찾고자 하는 키가 루트 노드의 키보다 크다면 오른쪽 서브 트리 탐색 진행
 
+### BST Source
+
+```java
+public class BinarySearchTree {
+    TreeNode rootNode = null;
+
+    public void insert(int val) {
+        if(rootNode == null) {
+            rootNode = new TreeNode(val);
+            return;
+        }
+
+        TreeNode curNode = rootNode;
+        TreeNode parentNode = null;
+        while(curNode != null) {
+            parentNode = curNode;
+            if(curNode.val > val) {
+                curNode = curNode.left;
+            } else if(curNode.val < val) {
+                curNode = curNode.right;
+            }
+        }
+
+        TreeNode newNode = new TreeNode(val);
+        if(parentNode.val > val) {
+            parentNode.left = newNode;
+        } else if(parentNode.val < val) {
+            parentNode.right = newNode;
+        }
+    }
+
+    public boolean search(int val) {
+        TreeNode curNode = rootNode;
+
+        while(curNode != null) {
+            if(curNode.val > val) {
+                curNode = curNode.left;
+            } else if(curNode.val < val) {
+                curNode = curNode.right;
+            } else if(curNode.val == val) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
