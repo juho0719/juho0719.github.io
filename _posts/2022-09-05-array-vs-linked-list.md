@@ -48,4 +48,23 @@ tags: [restful java]
 ### Code on demand (optional)
 
 - 필요의 경우 client는 server의 코드를 수행할 수 있어야 함
-- 
+
+## RESTful하게 디자인한다는 것은?
+
+- 리소스(Resource)와 행위(Behavior)를 직관적으로 분리
+- 행위는 `HTTP Method`로 표현하며, `GET`, `POST`, `PUT`, `PATCH`, `DELETE`를 목적에 맞게 사용
+- 메시지(Message)는 `Header`와 `Body`를 분리해서 사용
+- API의 버전을 관리하고, 하위호환성을 보장해야 함
+- 서버와 클라이언트가 같은 방식으로 데이터를 주고 받아야 함(json-json, form-form)
+
+## RESTful의 장점
+
+- 멀티플랫폼 지원 가능
+- 원하는 타입으로 데이터를 주고 받음
+- 기존에 사용하던 HTTP를 그대로 사용 가능
+
+## RESTful의 단점
+
+- 메소드 갯수가 적음
+- 분산환경에는 적합하지 않음
+- HTTP 프로토콜만 지원 가능
